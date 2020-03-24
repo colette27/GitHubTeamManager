@@ -1,2 +1,0 @@
-# GitHubTeamManager
-Created with CodeSandbox
