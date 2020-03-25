@@ -7,10 +7,9 @@ class App extends React.Component {
     super(props);
     var Teams = [];
     this.state = { Teams };
-    this.getTeams();
   }
 
-  getTeams = (teamId, userNmae) => {
+  getTeams = () => {
     return axios
       .get(`teams`)
       .then(result => {
@@ -24,24 +23,53 @@ class App extends React.Component {
       })
       .catch(function(error) {
         if (error.response && error.response.status === 404) {
-          console.error(`No results fetching Account list.`);
+          console.error(`No results fetching TEAM list.`);
         } else {
-          console.error(`ERROR fetching Account list ${JSON.stringify(error)}`);
+          console.error(
+            `ERROR ${error.message} fetching TEAM list ${JSON.stringify(error)}`
+          );
         }
       });
   };
 
+  handleNameChange = e => {
+    this.setState({
+      username: e.target.value
+    });
+  };
+
+  // PUT /orgs/:org/teams/:team_slug/memberships/:username
+  // NEXT STEP IS TO PARAMETERIZE THE TEAM, alerady done is the USERNAME
+  // 3719543
+  addMemberToTeam = (username, teamId) => {
+    return axios
+      .put("team/" + teamId + "/memberships/" + username)
+      .then(result => {
+        console.log("success");
+      });
+  };
+
   render() {
-    const { Teams } = this.state;
+    const { Teams, username } = this.state;
 
     return (
       <div className="App">
         <h1>GitHub Team Manager</h1>
         <button onClick={this.getTeams}>Click me!</button>
         THERE ARE {Teams.length} TEAMS
-        <input type="text" id="username" placeholder="enter git user name" />
+        <input
+          onChange={this.handleNameChange}
+          type="text"
+          id="username"
+          placeholder="enter git user name"
+        />
         {Teams.map((team, index) => (
-          <button key={index}>add me to the {team.name} team </button>
+          <button
+            onClick={() => this.addMemberToTeam(username, team.id)}
+            key={index}
+          >
+            add to {team.name} team{" "}
+          </button>
         ))}
       </div>
     );
