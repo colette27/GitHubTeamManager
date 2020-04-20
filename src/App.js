@@ -38,9 +38,7 @@ class App extends React.Component {
     });
   };
 
-  // PUT /orgs/:org/teams/:team_slug/memberships/:username
-  // NEXT STEP IS TO PARAMETERIZE THE TEAM, alerady done is the USERNAME
-  // 3719543
+
   addMemberToTeam = (username, teamId) => {
     return axios
       .put("team/" + teamId + "/memberships/" + username)
@@ -76,14 +74,5 @@ class App extends React.Component {
   }
 }
 
-//don't bother with the OATH code for this
-
-//implement with personal access token,
-
-//At the end you can do this with Java Spring Oath
-
-//copy in JS React methods, no need for components
-
-// sample code for using axios
 
 export default App;
